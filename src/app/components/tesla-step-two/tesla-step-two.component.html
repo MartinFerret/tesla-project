@@ -1,0 +1,33 @@
+<section>
+<h1>Step 2: Select your config and options</h1>
+<form [formGroup]="selectForm" novalidate>
+  <p-dropdown
+    (onChange)="onConfigChange($event.value)"
+    id ="configSelect"
+    [options]="config.configs"
+    formControlName="config"
+    placeholder="Choose a config"
+    name="config"
+    optionLabel="description"
+    appendTo="body">
+  </p-dropdown>
+  <div class="checkboxes">
+    <div *ngIf="config.towHitch">
+      <input type="checkbox" id="includeTow" name="includeTow" [value]="true" formControlName="tHitch">
+      <label for="includeTow">Tow hitch ?</label><br>
+    </div>
+  </div>
+  <div *ngIf="config.yoke">
+    <input type="checkbox" id="includeYoke" name="includeYoke" [value]="true" formControlName="yoke">
+    <label for="includeYoke">Yoke steering wheel ?</label><br>
+  </div>
+</form>
+<div *ngIf="selectForm.get('config')?.value" class="config">
+  Range: {{ range }} miles - Max speed: {{ speed }} - Cost: {{ price | currency }}
+</div>
+  <ng-container *ngIf="selectedTesla">
+    <app-image-tesla
+    [model]="selectedModelForDisplayPhoto"
+    [color]="selectedTesla?.color?.code"></app-image-tesla>
+  </ng-container>
+</section>

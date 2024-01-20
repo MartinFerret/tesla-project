@@ -1,0 +1,33 @@
+<section>
+<h1>Step 1: Choose your Model and color</h1>
+  <form [formGroup]="selectForm" novalidate>
+    <p-dropdown
+      (onChange)="onModelChange($event.value)"
+      id ="modelSelect"
+      [options]="models"
+      formControlName="model"
+      placeholder="Choose a model"
+      name="model"
+      optionLabel="description"
+      optionValue="code"
+      appendTo="body">
+    </p-dropdown>
+    <ng-container *ngIf="selectedModel">
+      <p-dropdown
+        (onChange)="onColorChange($event.value)"
+        id ="colorSelect"
+        placeholder="Choose a color"
+        [options]="colors"
+        formControlName="color"
+        name="model"
+        optionLabel="description"
+        optionValue="code"
+        appendTo="body">
+      </p-dropdown>
+    </ng-container>
+  </form>
+  <div *ngIf="selectedTesla.color">
+    <img [src]="'./assets/images/tesla-' + selectedModelForDisplayPhoto + '/' + selectedColor + '.jpg'" alt="">
+  </div>
+</section>
+

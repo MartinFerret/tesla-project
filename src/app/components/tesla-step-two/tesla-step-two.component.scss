@@ -1,0 +1,25 @@
+section {
+  width: 800px;
+  padding: 37px 35%;
+
+  & .checkboxes {
+    margin-top: 50px;
+  }
+
+  & .config {
+    margin: 50px 20px;
+  }
+
+  & #configSelect{
+    width: 300px !important;
+    outline: none;
+  }
+  & img {
+    margin-top: 100px;
+  }
+
+  & form {
+    background-color: transparent;
+  }
+}
+

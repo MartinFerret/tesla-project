@@ -1,0 +1,16 @@
+section {
+  width: 800px;
+  padding: 37px 35%;
+  & #modelSelect, #colorSelect {
+    width: 290px !important;
+    margin: 0 40px;
+    outline: none;
+  }
+  & img {
+    margin-top: 100px;
+  }
+}
+
+form {
+  background-color: transparent;
+}

@@ -1,2 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/mini.css/dist/mini-dark.min.css";
+
+#modelSelect, #colorSelect {
+  width: 200px !important;
+}
+
+#configSelect > span,
+#modelSelect > span,
+#colorSelect > span {
+  padding-top: 13px !important;
+}
+
+#configSelect_list {
+  background-color: #111;
+  border: 1px solid gray;
+  padding: 10px;
+}
+

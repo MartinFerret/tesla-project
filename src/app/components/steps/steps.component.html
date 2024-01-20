@@ -1,0 +1,11 @@
+<section>
+  <button routerLink="/models" routerLinkActive="active" id="step1">
+    1. Choose <span>&#x2713;</span>
+  </button>
+  <button [routerLink]="['/options/', selectedModel]" routerLinkActive="active" id="step2" [disabled]="!selectedColor">
+    2. Configure <span>{{ !selectedColor ? 'X' : '&#x2713;' }}</span>
+  </button>
+  <button routerLink="/recap" routerLinkActive="active" id="step3" [disabled]="!selectedObject.config">
+    3. Summary <span>{{ !selectedObject.config ? 'X' : '&#x2713;' }}</span>
+  </button>
+</section>
