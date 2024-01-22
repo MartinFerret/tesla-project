@@ -6,8 +6,8 @@ import {Observable} from "rxjs";
 export const stepOneGuard: CanActivateFn = (route, state) => {
   const selectedCar = inject(SharedService).getSelectedTesla();
   return new Observable<boolean>((observer) => {
-    selectedCar.subscribe((s) => {
-      if (s.color) {
+    selectedCar.subscribe((selectedTesla) => {
+      if (selectedTesla.color) {
         observer.next(true);
       } else {
         observer.next(false);

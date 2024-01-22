@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ICarSelected } from "../models/tesla.model";
+import { CarSelected } from "../models/tesla.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedService {
-  private selectedTeslaSubject: BehaviorSubject<ICarSelected> = new BehaviorSubject<ICarSelected>({ model: undefined, color: undefined });
+  private selectedTeslaSubject: BehaviorSubject<CarSelected> = new BehaviorSubject<CarSelected>({ model: undefined, color: undefined });
 
-  selectedTeslaSubject$: Observable<ICarSelected> = this.selectedTeslaSubject.asObservable();
+  selectedTeslaSubject$: Observable<CarSelected> = this.selectedTeslaSubject.asObservable();
 
-  setSelectedTesla(selectedObject: ICarSelected): void {
+  setSelectedTesla(selectedObject: CarSelected): void {
     this.selectedTeslaSubject.next(selectedObject);
   }
 
-  getSelectedTesla(): Observable<ICarSelected> {
+  getSelectedTesla(): Observable<CarSelected> {
     return this.selectedTeslaSubject$;
   }
 }

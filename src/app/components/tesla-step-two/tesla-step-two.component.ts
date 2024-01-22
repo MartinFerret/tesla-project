@@ -7,12 +7,12 @@ import {
 } from '@angular/core';
 import { Subscription} from "rxjs";
 import { ActivatedRoute } from "@angular/router";
-import { ICarSelected } from "../../models/tesla.model";
+import { CarSelected } from "../../models/tesla.model";
 import { SharedService } from "../../services/shared.service";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
 import { CurrencyPipe, NgIf } from "@angular/common";
-import { ICarConfig, IConfig } from "../../models/config.model";
+import { CarConfig, Config } from "../../models/config.model";
 import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tesla.component";
 
 @Component({
@@ -31,8 +31,8 @@ import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tes
 })
 export class TeslaStepTwoComponent implements OnInit, OnDestroy {
   subscription: Subscription[] = [];
-  config!: ICarConfig;
-  selectedTesla: ICarSelected | undefined;
+  config!: CarConfig;
+  selectedTesla: CarSelected | undefined;
 
   activatedRoute = inject(ActivatedRoute);
   private sharedService = inject(SharedService);
@@ -100,7 +100,7 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
     });
   }
 
-  onConfigChange(config: IConfig) {
+  onConfigChange(config: Config) {
     this.range = config.range;
     this.price = config.price;
     this.speed = config.speed;
@@ -108,7 +108,7 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
   }
 
   updateSelectedCar() {
-    const selectedCar: ICarSelected = {
+    const selectedCar: CarSelected = {
       model: this.selectedTesla?.model ?? undefined,
       color: this.selectedTesla?.color ?? undefined,
       config: this.selectForm.get('config')?.value,

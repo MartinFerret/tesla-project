@@ -1,4 +1,4 @@
-export interface IConfig {
+export interface Config {
   id: number;
   description: string;
   range: number;
@@ -6,8 +6,8 @@ export interface IConfig {
   price: number;
 }
 
-export interface ICarConfig {
-  configs: IConfig[];
+export interface CarConfig {
+  configs: Config[];
   towHitch: boolean;
   yoke: boolean;
 }

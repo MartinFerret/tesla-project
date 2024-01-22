@@ -1,23 +1,23 @@
-import {IConfig} from "./config.model";
+import {Config} from "./config.model";
 
-export interface IModel {
+export interface Model {
   code: string;
   description: string;
-  colors: IColor[];
+  colors: Color[];
 }
 
-export interface IColor {
+export interface Color {
   code: string;
   description: string;
   price: number;
 }
 
-export interface IModelWithoutColors extends Omit<IModel, 'colors'> {}
+export interface ModelWithoutColors extends Omit<Model, 'colors'> {}
 
-export interface ICarSelected {
-  model: IModelWithoutColors | undefined;
-  color: IColor | undefined;
-  config?: IConfig;
+export interface CarSelected {
+  model: ModelWithoutColors | undefined;
+  color: Color | undefined;
+  config?: Config;
   tow?: boolean;
   yoke?: boolean
 }

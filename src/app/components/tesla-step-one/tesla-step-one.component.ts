@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
-import { ICarSelected, IColor, IModel } from "../../models/tesla.model";
+import { CarSelected, Color, Model } from "../../models/tesla.model";
 import { DropdownModule } from "primeng/dropdown";
 import { CommonModule } from "@angular/common";
 import { SharedService } from "../../services/shared.service";
@@ -25,9 +25,9 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
   sharedService = inject(SharedService);
 
   subscription: Subscription[] = [];
-  colors: IColor[] = [];
-  models: IModel[] = [];
-  selectedTesla: ICarSelected = {
+  colors: Color[] = [];
+  models: Model[] = [];
+  selectedTesla: CarSelected = {
     model: undefined,
     color: undefined,
   };
@@ -61,7 +61,7 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
     this.selectedModelForDisplayPhoto = model.toLowerCase();
   }
 
-  getSelectedModelObject(modelCode: string): IModel | undefined {
+  getSelectedModelObject(modelCode: string): Model | undefined {
     return this.models.find(model => model.code === modelCode);
   }
 
@@ -77,7 +77,7 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
     }
   }
 
-  getColorsForSelectedModel(): IColor[] {
+  getColorsForSelectedModel(): Color[] {
     if (this.selectedModel) {
       const selectedModel = this.models.find(model => model.code === this.selectedModel);
       if (selectedModel && selectedModel.colors) {

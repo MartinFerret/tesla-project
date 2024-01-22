@@ -8,8 +8,8 @@ import {
 import { Subscription } from "rxjs";
 import { SharedService } from "../../services/shared.service";
 import { FormsModule } from "@angular/forms";
-import { ICarSelected } from "../../models/tesla.model";
-import { CurrencyPipe, NgIf } from "@angular/common";
+import { CarSelected } from "../../models/tesla.model";
+import {CurrencyPipe, NgIf, UpperCasePipe} from "@angular/common";
 import { DividerModule } from "primeng/divider";
 import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tesla.component";
 
@@ -22,7 +22,8 @@ import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tes
     CurrencyPipe,
     NgIf,
     DividerModule,
-    ImageTeslaComponent
+    ImageTeslaComponent,
+    UpperCasePipe
   ],
   templateUrl: './tesla-step-three.component.html',
   styleUrl: './tesla-step-three.component.scss'
@@ -31,7 +32,7 @@ export class TeslaStepThreeComponent implements OnInit, OnDestroy {
   selectedModelForDisplayPhoto: string | undefined = '';
   totalPrice: number = 0;
 
-  selectedTesla!: ICarSelected;
+  selectedTesla!: CarSelected;
   subscription: Subscription[] = [];
 
   private sharedService = inject(SharedService);
@@ -42,7 +43,7 @@ export class TeslaStepThreeComponent implements OnInit, OnDestroy {
   }
 
   getTotalPrice() {
-    if (this.selectedTesla) {
+    if (this.selectedTesla.config) {
       this.totalPrice += this.selectedTesla.config?.price ?? 0;
     }
     if (this.selectedTesla.color && this.selectedTesla?.color?.price > 0) {

@@ -8,6 +8,6 @@ import {Component, Input} from '@angular/core';
   styleUrl: './image-tesla.component.scss'
 })
 export class ImageTeslaComponent {
-  @Input() model: string | undefined;
-  @Input() color: string | undefined;
+  @Input({ required: true }) model: string | undefined;
+  @Input({ required: true }) color: string | undefined;
 }
