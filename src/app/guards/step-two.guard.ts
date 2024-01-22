@@ -3,7 +3,7 @@ import {inject} from "@angular/core";
 import {SharedService} from "../services/shared.service";
 import {Observable} from "rxjs";
 
-export const stepTwoGuard: CanActivateFn = (route, state) => {
+export const stepTwoGuard: CanActivateFn = () => {
   const selectedCar = inject(SharedService).getSelectedTesla();
   return new Observable<boolean>((observer) => {
     selectedCar.subscribe((selectedTesla) => {

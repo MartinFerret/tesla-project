@@ -23,6 +23,7 @@ import { SharedService } from "../../services/shared.service";
 export class TeslaStepOneComponent implements OnInit, OnDestroy {
   activatedRoute = inject(ActivatedRoute);
   sharedService = inject(SharedService);
+  fb = inject(FormBuilder);
 
   subscription: Subscription[] = [];
   colors: Color[] = [];
@@ -40,8 +41,6 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
     model: ['', [Validators.required]],
     color: ['', [Validators.required]]
   });
-
-  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.loadModels();

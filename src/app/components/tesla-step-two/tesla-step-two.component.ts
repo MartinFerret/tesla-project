@@ -35,7 +35,9 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
   selectedTesla: CarSelected | undefined;
 
   activatedRoute = inject(ActivatedRoute);
+  fb = inject(FormBuilder);
   private sharedService = inject(SharedService);
+
   selectedModelForDisplayPhoto: string | undefined = '';
   range: number = 0;
   speed: number = 0;
@@ -48,8 +50,6 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
     tHitch: [false],
     yoke: [false],
   });
-
-  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((value) => this.config = value['configs']);
