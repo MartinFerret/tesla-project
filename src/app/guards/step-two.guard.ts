@@ -1,17 +1,12 @@
 import { CanActivateFn } from '@angular/router';
 import {inject} from "@angular/core";
 import {SharedService} from "../services/shared.service";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 
 export const stepTwoGuard: CanActivateFn = () => {
-  const selectedCar = inject(SharedService).getSelectedTesla();
-  return new Observable<boolean>((observer) => {
-    selectedCar.subscribe((selectedTesla) => {
-      if (selectedTesla.config) {
-        observer.next(true);
-      } else {
-        observer.next(false);
-      }
-    });
-  });
+  return inject(SharedService).getSelectedTesla().pipe(
+    map((selectedTesla) => {
+      return !!selectedTesla.config;
+    })
+  );
 };
