@@ -2,10 +2,10 @@
   <button routerLink="/models" routerLinkActive="active" id="step1">
     1. Choose <span>&#x2713;</span>
   </button>
-  <button [routerLink]="['/options/', selectedModel]" routerLinkActive="active" id="step2" [disabled]="!selectedTesla.color?.code">
-    2. Configure <span>{{ !selectedTesla.color?.code ? 'X' : '&#x2713;' }}</span>
+  <button [routerLink]="['/options/', selectedModel()]" routerLinkActive="active" id="step2" [disabled]="!selectedTesla().color?.code">
+    2. Configure <span>{{ !selectedTesla().color?.code ? 'X' : '&#x2713;' }}</span>
   </button>
-  <button routerLink="/recap" routerLinkActive="active" id="step3" [disabled]="!selectedTesla.config">
-    3. Summary <span>{{ !selectedTesla.config ? 'X' : '&#x2713;' }}</span>
+  <button routerLink="/recap" routerLinkActive="active" id="step3" [disabled]="!selectedTesla().config">
+    3. Summary <span>{{ !selectedTesla().config ? 'X' : '&#x2713;' }}</span>
   </button>
 </section>

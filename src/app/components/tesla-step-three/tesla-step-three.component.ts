@@ -9,7 +9,7 @@ import { Subscription } from "rxjs";
 import { SharedService } from "../../services/shared.service";
 import { FormsModule } from "@angular/forms";
 import { CarSelected } from "../../models/tesla.model";
-import {AsyncPipe, CurrencyPipe, NgIf, UpperCasePipe} from "@angular/common";
+import {AsyncPipe, CurrencyPipe, UpperCasePipe} from "@angular/common";
 import { DividerModule } from "primeng/divider";
 import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tesla.component";
 
@@ -20,7 +20,6 @@ import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tes
   imports: [
     FormsModule,
     CurrencyPipe,
-    NgIf,
     DividerModule,
     ImageTeslaComponent,
     UpperCasePipe,

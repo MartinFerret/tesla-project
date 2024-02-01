@@ -1,38 +1,54 @@
 <section>
 <h1>Step 3: Summary</h1><br>
 <h2>Your Tesla {{ selectedTesla.model?.description }}</h2>
-<div *ngIf="selectedTesla">
-  <div class="config" *ngIf="selectedTesla.config">
-    <p>{{ selectedTesla.config.description }}</p>
-    <p>{{ selectedTesla.config.price | currency }}</p>
-  </div>
-  <p *ngIf="selectedTesla.config">
-    Range: {{ selectedTesla.config.range }} miles - Max speed: {{ selectedTesla.config.speed }}
-  </p>
-  <div class="config" *ngIf="selectedTesla.color">
-    <p>{{ selectedTesla.color.description }} Color</p>
-    <p *ngIf="selectedTesla.color.price && selectedTesla.color.price > 0">
-      {{ selectedTesla.color.price | currency }}
-    </p>
-  </div>
-  <div class="config" *ngIf="selectedTesla.tow">
-    <p>Tow Hitch Package</p>
-    <p>{{ '1000' | currency }}</p>
-  </div>
-  <div class="config" *ngIf="selectedTesla.yoke">
-    <p>Yoke steering wheel</p>
-    <p>{{ '1000' | currency }}</p>
-  </div>
-  <p-divider></p-divider>
-  <div class="total">
-    <h3>{{ 'Total Coast' | uppercase }}</h3>
-    <h3>{{ totalPrice() | currency }}</h3>
-  </div>
-  <p-divider></p-divider>
-  <ng-container *ngIf="selectedTesla">
-    <app-image-tesla
-      [model]="selectedModelForDisplayPhoto()"
-      [color]="selectedTesla.color?.code"></app-image-tesla>
-  </ng-container>
-</div>
+  @if (selectedTesla) {
+    <div>
+      @if (selectedTesla.config) {
+        <div class="config">
+          <p>{{ selectedTesla.config.description }}</p>
+          <p>{{ selectedTesla.config.price | currency }}</p>
+        </div>
+      }
+      @if (selectedTesla.config) {
+        <p>
+          Range: {{ selectedTesla.config.range }} miles - Max speed: {{ selectedTesla.config.speed }}
+        </p>
+      }
+      @if (selectedTesla.color) {
+        <div class="config">
+          <p>{{ selectedTesla.color.description }} Color</p>
+          @if(selectedTesla.color.price && selectedTesla.color.price > 0) {
+            <p>
+              {{ selectedTesla.color.price | currency }}
+            </p>
+          }
+        </div>
+      }
+      @if (selectedTesla.tow) {
+        <div class="config">
+          <p>Tow Hitch Package</p>
+          <p>{{ '1000' | currency }}</p>
+        </div>
+      }
+      @if (selectedTesla.yoke) {
+        <div class="config">
+          <p>Yoke steering wheel</p>
+          <p>{{ '1000' | currency }}</p>
+        </div>
+      }
+      <p-divider></p-divider>
+      <div class="total">
+        <h3>{{ 'Total Coast' | uppercase }}</h3>
+        <h3>{{ totalPrice() | currency }}</h3>
+      </div>
+      <p-divider></p-divider>
+      @if (selectedTesla) {
+        <ng-container>
+          <app-image-tesla
+            [model]="selectedModelForDisplayPhoto()"
+            [color]="selectedTesla?.color?.code"></app-image-tesla>
+        </ng-container>
+      }
+    </div>
+  }
 </section>

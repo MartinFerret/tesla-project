@@ -11,7 +11,7 @@ import { CarSelected } from "../../models/tesla.model";
 import { SharedService } from "../../services/shared.service";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { DropdownModule } from "primeng/dropdown";
-import { CurrencyPipe, NgIf } from "@angular/common";
+import { CurrencyPipe } from "@angular/common";
 import { CarConfig, Config } from "../../models/config.model";
 import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tesla.component";
 
@@ -23,7 +23,6 @@ import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tes
     ReactiveFormsModule,
     DropdownModule,
     CurrencyPipe,
-    NgIf,
     ImageTeslaComponent
   ],
   templateUrl: './tesla-step-two.component.html',
@@ -32,7 +31,7 @@ import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tes
 export class TeslaStepTwoComponent implements OnInit, OnDestroy {
   subscription: Subscription[] = [];
   config!: CarConfig;
-  selectedTesla: CarSelected | undefined;
+  selectedTesla = signal<CarSelected | undefined>(undefined);
 
   activatedRoute = inject(ActivatedRoute);
   fb = inject(FormBuilder);
@@ -42,8 +41,8 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
   range = signal<number>(0);
   speed= signal<number>(0);
   price= signal<number>(0);
-  yokeActive = false;
-  towActive = false;
+  yokeActive = signal(false);
+  towActive = signal(false);
 
   selectForm: FormGroup = this.fb.group({
     config: [undefined, [Validators.required]],
@@ -65,14 +64,14 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
     if (tHitchControl && yokeControl) {
       this.subscription.push(
         tHitchControl.valueChanges.subscribe((value) => {
-          this.towActive = value;
+          this.towActive.set(value);
           this.updateSelectedCar();
         })
       );
 
       this.subscription.push(
         yokeControl.valueChanges.subscribe((value) => {
-          this.yokeActive = value;
+          this.yokeActive.set(value);
           this.updateSelectedCar();
         })
       );
@@ -80,22 +79,22 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
   }
 
   checkOptionsDisplayed () {
-    if (this.selectedTesla?.yoke) {
-      this.yokeActive = true;
+    if (this.selectedTesla()?.yoke) {
+      this.yokeActive.set(true);
     }
-    if (this.selectedTesla?.tow) {
-      this.towActive = true;
+    if (this.selectedTesla()?.tow) {
+      this.towActive.set(true);
     }
     this.selectForm.patchValue({
-      tHitch: this.towActive,
-      yoke: this.yokeActive,
+      tHitch: this.towActive(),
+      yoke: this.yokeActive(),
     });
     this.selectForm.updateValueAndValidity();
   }
 
   loadSelectedCar() {
     this.sharedService.getSelectedTesla().subscribe((selectedTesla) => {
-      this.selectedTesla = selectedTesla;
+      this.selectedTesla.set(selectedTesla);
       this.selectedModelForDisplayPhoto.set(selectedTesla.model?.code.toLowerCase());
     });
   }
@@ -109,8 +108,8 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
 
   updateSelectedCar() {
     const selectedCar: CarSelected = {
-      model: this.selectedTesla?.model ?? undefined,
-      color: this.selectedTesla?.color ?? undefined,
+      model: this.selectedTesla()?.model ?? undefined,
+      color: this.selectedTesla()?.color ?? undefined,
       config: this.selectForm.get('config')?.value,
       tow: this.selectForm.get('tHitch')?.value,
       yoke: this.selectForm.get('yoke')?.value

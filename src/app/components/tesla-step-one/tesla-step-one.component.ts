@@ -26,12 +26,12 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
   fb = inject(FormBuilder);
 
   subscription: Subscription[] = [];
-  colors: Color[] = [];
-  models: Model[] = [];
-  selectedTesla: CarSelected = {
+  colors = signal<Color[]>([]);
+  models = signal<Model[]>([]);
+  selectedTesla = signal<CarSelected>({
     model: undefined,
     color: undefined,
-  };
+  });
 
   selectedModel = signal('');
   selectedColor = signal('');
@@ -48,37 +48,37 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
 
   loadModels() {
     this.subscription.push(this.activatedRoute.data.subscribe(data => {
-      this.models = data['models'];
+      this.models.set(data['models']);
     }));
   }
 
   onModelChange(model: string) {
     this.selectedModel.set(model);
-    this.colors = this.getColorsForSelectedModel();
-    this.selectedTesla.model = this.getSelectedModelObject(this.selectedModel());
-    this.sharedService.setSelectedTesla(this.selectedTesla);
+    this.colors.set(this.getColorsForSelectedModel());
+    this.selectedTesla().model = this.getSelectedModelObject(this.selectedModel());
+    this.sharedService.setSelectedTesla(this.selectedTesla());
     this.selectedModelForDisplayPhoto.set(model.toLowerCase());
   }
 
   getSelectedModelObject(modelCode: string): Model | undefined {
-    return this.models.find(model => model.code === modelCode);
+    return this.models().find(model => model.code === modelCode);
   }
 
   onColorChange(color: string) {
     this.selectedColor.set(color);
-    const selectedModelWithColor = this.models.find((model) => {
+    const selectedModelWithColor = this.models().find((model) => {
       return model.code === this.selectedModel() && model.colors.some(c => c.code === color);
     });
 
     if (selectedModelWithColor) {
-      this.selectedTesla.color = selectedModelWithColor.colors.find(c => c.code === color);
-      this.sharedService.setSelectedTesla(this.selectedTesla);
+      this.selectedTesla().color = selectedModelWithColor.colors.find(c => c.code === color);
+      this.sharedService.setSelectedTesla(this.selectedTesla());
     }
   }
 
   getColorsForSelectedModel(): Color[] {
     if (this.selectedModel) {
-      const selectedModel = this.models.find(model => model.code === this.selectedModel());
+      const selectedModel = this.models().find(model => model.code === this.selectedModel());
       if (selectedModel && selectedModel.colors) {
         return selectedModel.colors;
       }

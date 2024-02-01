@@ -4,7 +4,7 @@
     <p-dropdown
       (onChange)="onModelChange($event.value)"
       id ="modelSelect"
-      [options]="models"
+      [options]="models()"
       formControlName="model"
       placeholder="Choose a model"
       name="model"
@@ -12,22 +12,26 @@
       optionValue="code"
       appendTo="body">
     </p-dropdown>
-    <ng-container *ngIf="selectedModel()">
-      <p-dropdown
-        (onChange)="onColorChange($event.value)"
-        id ="colorSelect"
-        placeholder="Choose a color"
-        [options]="colors"
-        formControlName="color"
-        name="model"
-        optionLabel="description"
-        optionValue="code"
-        appendTo="body">
-      </p-dropdown>
-    </ng-container>
+    @if (selectedModel()) {
+      <ng-container>
+        <p-dropdown
+          (onChange)="onColorChange($event.value)"
+          id ="colorSelect"
+          placeholder="Choose a color"
+          [options]="colors()"
+          formControlName="color"
+          name="model"
+          optionLabel="description"
+          optionValue="code"
+          appendTo="body">
+        </p-dropdown>
+      </ng-container>
+    }
   </form>
-  <div *ngIf="selectedTesla.color">
-    <img [src]="'./assets/images/tesla-' + selectedModelForDisplayPhoto() + '/' + selectedColor() + '.jpg'" alt="">
-  </div>
+  @if(selectedTesla().color) {
+    <div>
+      <img [src]="'./assets/images/tesla-' + selectedModelForDisplayPhoto() + '/' + selectedColor() + '.jpg'" alt="">
+    </div>
+  }
 </section>
 
