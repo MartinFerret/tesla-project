@@ -3,13 +3,13 @@ import {
   Component,
   inject,
   OnDestroy,
-  OnInit
+  OnInit, signal
 } from '@angular/core';
 import { Subscription } from "rxjs";
 import { SharedService } from "../../services/shared.service";
 import { FormsModule } from "@angular/forms";
 import { CarSelected } from "../../models/tesla.model";
-import {CurrencyPipe, NgIf, UpperCasePipe} from "@angular/common";
+import {AsyncPipe, CurrencyPipe, NgIf, UpperCasePipe} from "@angular/common";
 import { DividerModule } from "primeng/divider";
 import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tesla.component";
 
@@ -23,14 +23,15 @@ import {ImageTeslaComponent} from "../../shared/components/image-tesla/image-tes
     NgIf,
     DividerModule,
     ImageTeslaComponent,
-    UpperCasePipe
+    UpperCasePipe,
+    AsyncPipe
   ],
   templateUrl: './tesla-step-three.component.html',
   styleUrl: './tesla-step-three.component.scss'
 })
 export class TeslaStepThreeComponent implements OnInit, OnDestroy {
-  selectedModelForDisplayPhoto: string | undefined = '';
-  totalPrice: number = 0;
+  selectedModelForDisplayPhoto = signal<string | undefined>('');
+  totalPrice = signal(0);
 
   selectedTesla!: CarSelected;
   subscription: Subscription[] = [];
@@ -44,24 +45,24 @@ export class TeslaStepThreeComponent implements OnInit, OnDestroy {
 
   getTotalPrice() {
     if (this.selectedTesla.config) {
-      this.totalPrice += this.selectedTesla.config?.price ?? 0;
+      this.totalPrice.update((oldValue => oldValue + this.selectedTesla.config!.price!));
     }
     if (this.selectedTesla.color && this.selectedTesla?.color?.price > 0) {
-      this.totalPrice += this.selectedTesla.color.price;
+      this.totalPrice.update((oldValue) => oldValue + this.selectedTesla.color!.price);
     }
     if (this.selectedTesla.tow) {
-      this.totalPrice += 1000;
+      this.totalPrice.update((oldValue) => oldValue + 1000);
     }
     if (this.selectedTesla.yoke) {
-      this.totalPrice += 1000;
+      this.totalPrice.update((oldValue) => oldValue + 1000);
     }
   }
 
   initializeSelectedCar() {
-    this.sharedService.selectedTeslaSubject$.subscribe((selectedCar) => {
+    this.subscription.push(    this.sharedService.selectedTeslaSubject$.subscribe((selectedCar) => {
       this.selectedTesla = selectedCar;
-      this.selectedModelForDisplayPhoto = selectedCar.model?.code.toLowerCase();
-    });
+      this.selectedModelForDisplayPhoto.set(selectedCar.model?.code.toLowerCase());
+    }));
   }
 
   ngOnDestroy() {

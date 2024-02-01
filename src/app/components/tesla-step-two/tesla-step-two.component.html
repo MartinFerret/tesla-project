@@ -23,11 +23,11 @@
   </div>
 </form>
 <div *ngIf="selectForm.get('config')?.value" class="config">
-  Range: {{ range }} miles - Max speed: {{ speed }} - Cost: {{ price | currency }}
+  Range: {{ range() }} miles - Max speed: {{ speed() }} - Cost: {{ price() | currency }}
 </div>
   <ng-container *ngIf="selectedTesla">
     <app-image-tesla
-    [model]="selectedModelForDisplayPhoto"
+    [model]="selectedModelForDisplayPhoto()"
     [color]="selectedTesla.color?.code"></app-image-tesla>
   </ng-container>
 </section>

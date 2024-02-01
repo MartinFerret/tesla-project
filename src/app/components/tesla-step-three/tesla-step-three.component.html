@@ -26,12 +26,12 @@
   <p-divider></p-divider>
   <div class="total">
     <h3>{{ 'Total Coast' | uppercase }}</h3>
-    <h3>{{ totalPrice | currency }}</h3>
+    <h3>{{ totalPrice() | currency }}</h3>
   </div>
   <p-divider></p-divider>
   <ng-container *ngIf="selectedTesla">
     <app-image-tesla
-      [model]="selectedModelForDisplayPhoto"
+      [model]="selectedModelForDisplayPhoto()"
       [color]="selectedTesla.color?.code"></app-image-tesla>
   </ng-container>
 </div>

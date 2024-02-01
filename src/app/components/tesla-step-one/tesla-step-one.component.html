@@ -27,7 +27,7 @@
     </ng-container>
   </form>
   <div *ngIf="selectedTesla.color">
-    <img [src]="'./assets/images/tesla-' + selectedModelForDisplayPhoto + '/' + selectedColor + '.jpg'" alt="">
+    <img [src]="'./assets/images/tesla-' + selectedModelForDisplayPhoto() + '/' + selectedColor() + '.jpg'" alt="">
   </div>
 </section>
 

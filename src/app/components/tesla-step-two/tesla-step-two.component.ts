@@ -3,7 +3,7 @@ import {
   Component,
   inject,
   OnDestroy,
-  OnInit,
+  OnInit, signal,
 } from '@angular/core';
 import { Subscription} from "rxjs";
 import { ActivatedRoute } from "@angular/router";
@@ -38,10 +38,10 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
   fb = inject(FormBuilder);
   private sharedService = inject(SharedService);
 
-  selectedModelForDisplayPhoto: string | undefined = '';
-  range: number = 0;
-  speed: number = 0;
-  price: number = 0;
+  selectedModelForDisplayPhoto =  signal<string | undefined>('');
+  range = signal<number>(0);
+  speed= signal<number>(0);
+  price= signal<number>(0);
   yokeActive = false;
   towActive = false;
 
@@ -96,14 +96,14 @@ export class TeslaStepTwoComponent implements OnInit, OnDestroy {
   loadSelectedCar() {
     this.sharedService.getSelectedTesla().subscribe((selectedTesla) => {
       this.selectedTesla = selectedTesla;
-      this.selectedModelForDisplayPhoto = selectedTesla.model?.code.toLowerCase();
+      this.selectedModelForDisplayPhoto.set(selectedTesla.model?.code.toLowerCase());
     });
   }
 
   onConfigChange(config: Config) {
-    this.range = config.range;
-    this.price = config.price;
-    this.speed = config.speed;
+    this.range.set(config.range);
+    this.price.set(config.price);
+    this.speed.set(config.speed);
     this.updateSelectedCar();
   }
 

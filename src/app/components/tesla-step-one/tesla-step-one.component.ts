@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs";
@@ -33,9 +33,9 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
     color: undefined,
   };
 
-  selectedModel: string = '';
-  selectedColor: string = '';
-  selectedModelForDisplayPhoto: string = '';
+  selectedModel = signal('');
+  selectedColor = signal('');
+  selectedModelForDisplayPhoto = signal<string>('');
 
   selectForm: FormGroup = this.fb.group({
     model: ['', [Validators.required]],
@@ -53,11 +53,11 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
   }
 
   onModelChange(model: string) {
-    this.selectedModel = model;
+    this.selectedModel.set(model);
     this.colors = this.getColorsForSelectedModel();
-    this.selectedTesla.model = this.getSelectedModelObject(this.selectedModel);
+    this.selectedTesla.model = this.getSelectedModelObject(this.selectedModel());
     this.sharedService.setSelectedTesla(this.selectedTesla);
-    this.selectedModelForDisplayPhoto = model.toLowerCase();
+    this.selectedModelForDisplayPhoto.set(model.toLowerCase());
   }
 
   getSelectedModelObject(modelCode: string): Model | undefined {
@@ -65,9 +65,9 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
   }
 
   onColorChange(color: string) {
-    this.selectedColor = color;
+    this.selectedColor.set(color);
     const selectedModelWithColor = this.models.find((model) => {
-      return model.code === this.selectedModel && model.colors.some(c => c.code === color);
+      return model.code === this.selectedModel() && model.colors.some(c => c.code === color);
     });
 
     if (selectedModelWithColor) {
@@ -78,7 +78,7 @@ export class TeslaStepOneComponent implements OnInit, OnDestroy {
 
   getColorsForSelectedModel(): Color[] {
     if (this.selectedModel) {
-      const selectedModel = this.models.find(model => model.code === this.selectedModel);
+      const selectedModel = this.models.find(model => model.code === this.selectedModel());
       if (selectedModel && selectedModel.colors) {
         return selectedModel.colors;
       }
