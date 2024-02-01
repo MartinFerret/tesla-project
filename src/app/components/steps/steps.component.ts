@@ -33,7 +33,7 @@ export class StepsComponent implements OnInit, OnDestroy {
   }
 
   valueInitialization() {
-    this.subscription.push(this.sharedService.selectedTeslaSubject$.subscribe((carSelected) => {
+    this.subscription.push(this.sharedService.selectedTeslaObservable$.subscribe((carSelected) => {
       this.selectedModel = carSelected.model?.code.toLowerCase() ?? '';
       this.selectedTesla = carSelected ?? {};
     }));

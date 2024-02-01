@@ -12,7 +12,7 @@
       optionValue="code"
       appendTo="body">
     </p-dropdown>
-    <ng-container *ngIf="selectedModel">
+    <ng-container *ngIf="selectedModel()">
       <p-dropdown
         (onChange)="onColorChange($event.value)"
         id ="colorSelect"

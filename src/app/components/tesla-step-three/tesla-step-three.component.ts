@@ -59,7 +59,7 @@ export class TeslaStepThreeComponent implements OnInit, OnDestroy {
   }
 
   initializeSelectedCar() {
-    this.subscription.push(    this.sharedService.selectedTeslaSubject$.subscribe((selectedCar) => {
+    this.subscription.push(this.sharedService.selectedTeslaObservable$.subscribe((selectedCar) => {
       this.selectedTesla = selectedCar;
       this.selectedModelForDisplayPhoto.set(selectedCar.model?.code.toLowerCase());
     }));
